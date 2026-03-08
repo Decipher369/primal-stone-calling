@@ -185,7 +185,8 @@ function RuneGlyph({ position, rotation, scale, speed, offset }: {
     if (!ref.current) return;
     const t = state.clock.elapsedTime;
     ref.current.position.y = position[1] + Math.sin(t * speed + offset) * 0.5;
-    ref.current.material.opacity = 0.15 + Math.sin(t * speed * 0.5 + offset) * 0.1;
+    const mat = ref.current.material as THREE.MeshBasicMaterial;
+    mat.opacity = 0.15 + Math.sin(t * speed * 0.5 + offset) * 0.1;
   });
 
   return (
