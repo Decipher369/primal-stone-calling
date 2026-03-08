@@ -116,10 +116,6 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Three.js fire particles */}
-      <Suspense fallback={null}>
-        <FireScene3D />
-      </Suspense>
 
       {/* Vignette overlay */}
       <div
