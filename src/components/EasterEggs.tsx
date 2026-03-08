@@ -37,6 +37,7 @@ export function useEasterEggs() {
     if (idleTimer.current) clearTimeout(idleTimer.current);
     idleTimer.current = setTimeout(() => {
       setGhostPainting(true);
+      playGhostWind();
       setTimeout(() => setGhostPainting(false), 6000);
     }, 30000);
   }, []);
