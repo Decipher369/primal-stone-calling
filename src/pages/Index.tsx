@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import TorchCursor from "@/components/TorchCursor";
+import SoundToggle from "@/components/SoundToggle";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -42,6 +43,7 @@ const Index = () => {
   return (
     <div className="relative min-h-screen bg-background">
       <TorchCursor />
+      <SoundToggle />
       <Navbar onRegisterClick={() => setIsModalOpen(true)} />
 
       <HeroSection />
