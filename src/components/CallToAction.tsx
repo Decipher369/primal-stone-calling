@@ -6,10 +6,13 @@ import primalHeroBg from "@/assets/primal-hero-bg.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CallToAction = () => {
+interface CallToActionProps {
+  onJoinClick: () => void;
+}
+
+const CallToAction = ({ onJoinClick }: CallToActionProps) => {
   const sectionRef = useRef<HTMLElement>(null);
 
-  // GSAP: parallax bg + dramatic zoom on scroll
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -40,7 +43,6 @@ const CallToAction = () => {
 
   return (
     <section ref={sectionRef} id="call" className="relative py-32 md:py-48 px-4 overflow-hidden">
-      {/* Background image with parallax */}
       <div
         data-cta-bg
         className="absolute inset-0 will-change-transform"
@@ -83,7 +85,7 @@ const CallToAction = () => {
             className="text-display text-3xl sm:text-4xl md:text-6xl font-bold tracking-[0.08em] text-carved leading-tight mb-8"
             variants={{
               hidden: { opacity: 0, y: 60, scale: 0.95 },
-              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] } },
+              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] as const } },
             }}
           >
             Carve Your Name<br />Into History
@@ -104,8 +106,8 @@ const CallToAction = () => {
               visible: { opacity: 1, scale: 1, transition: { duration: 0.8, type: "spring", stiffness: 200 } },
             }}
           >
-            <motion.a
-              href="#"
+            <motion.button
+              onClick={onJoinClick}
               className="btn-brand-filled text-base md:text-lg"
               whileHover={{
                 scale: 1.05,
@@ -115,7 +117,7 @@ const CallToAction = () => {
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
             >
               Join the Tribe
-            </motion.a>
+            </motion.button>
           </motion.div>
 
           <motion.p
