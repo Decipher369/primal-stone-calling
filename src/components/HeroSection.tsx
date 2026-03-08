@@ -46,14 +46,14 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
 
   return (
     <motion.div
-      className="mt-8 relative inline-block"
+      className="mt-8 relative inline-block group cursor-default"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 3.2, duration: 1 }}
     >
-      {/* Realistic stone slab — small, rough, organic shape via clip-path */}
+      {/* Realistic stone slab */}
       <div
-        className="relative px-4 py-3 md:px-6 md:py-4"
+        className="relative px-4 py-3 md:px-6 md:py-4 transition-all duration-700"
         style={{
           background: `
             radial-gradient(ellipse at 30% 25%, hsl(30 12% 22%) 0%, hsl(25 14% 16%) 40%, hsl(20 10% 12%) 100%)
@@ -67,6 +67,14 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
           clipPath: "polygon(3% 8%, 12% 1%, 45% 3%, 78% 0%, 95% 5%, 99% 18%, 97% 75%, 100% 88%, 94% 97%, 60% 100%, 28% 98%, 8% 100%, 1% 90%, 0% 40%)",
         }}
       >
+        {/* Fire glow overlay on hover */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at 50% 50%, hsl(var(--fire) / 0.12), hsl(var(--ember) / 0.05) 60%, transparent 100%)",
+          }}
+        />
+
         {/* Grainy stone texture overlay */}
         <div
           className="absolute inset-0 opacity-[0.08] pointer-events-none mix-blend-overlay"
@@ -81,7 +89,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
         />
 
         {/* Subtle crack */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.08]" preserveAspectRatio="none" viewBox="0 0 200 60">
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.08] group-hover:opacity-[0.15] transition-opacity duration-700" preserveAspectRatio="none" viewBox="0 0 200 60">
           <path d="M30 5 L33 25 L28 50" stroke="hsl(var(--bone))" strokeWidth="0.4" fill="none" />
           <path d="M160 8 L163 30 L158 55" stroke="hsl(var(--bone))" strokeWidth="0.3" fill="none" />
         </svg>
@@ -92,17 +100,18 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
             <div key={u.label} className="flex items-center gap-1.5 md:gap-3">
               <div className="flex flex-col items-center min-w-[28px] md:min-w-[36px]">
                 <span
-                  className="text-sm md:text-lg tabular-nums leading-none"
+                  className="text-sm md:text-lg tabular-nums leading-none transition-all duration-700 group-hover:[text-shadow:0_0_8px_hsl(var(--fire)/0.6),0_0_20px_hsl(var(--fire)/0.3),0_1px_0_hsl(0_0%_0%/0.8)]"
                   style={{
                     fontFamily: "var(--font-display)",
                     color: "hsl(var(--bone) / 0.7)",
                     textShadow: "0 1px 0 hsl(0 0% 0% / 0.8)",
+                    transition: "color 0.7s, text-shadow 0.7s",
                   }}
                 >
                   {String(u.value).padStart(2, "0")}
                 </span>
                 <span
-                  className="text-[5px] md:text-[6px] tracking-[0.25em] uppercase mt-0.5"
+                  className="text-[5px] md:text-[6px] tracking-[0.25em] uppercase mt-0.5 transition-colors duration-700 group-hover:text-primary/60"
                   style={{
                     fontFamily: "var(--font-heading)",
                     color: "hsl(var(--bone-muted) / 0.35)",
@@ -114,7 +123,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
 
               {i < units.length - 1 && (
                 <motion.span
-                  className="text-[10px] md:text-xs -mt-2"
+                  className="text-[10px] md:text-xs -mt-2 transition-colors duration-700 group-hover:text-primary/40"
                   style={{ color: "hsl(var(--bone) / 0.25)" }}
                   animate={{ opacity: [0.4, 0.15, 0.4] }}
                   transition={{ repeat: Infinity, duration: 1.2 }}
