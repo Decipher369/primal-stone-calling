@@ -1,59 +1,147 @@
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import petroglyphGathering from "@/assets/petroglyph-gathering.png";
 import darkCaveBg from "@/assets/dark-cave-bg.jpg";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const MissionSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  // GSAP: scrub parallax on bg + heading text reveal
+  useEffect(() => {
+    const section = sectionRef.current;
+    const heading = headingRef.current;
+    if (!section || !heading) return;
+
+    const bg = section.querySelector("[data-mission-bg]") as HTMLElement;
+
+    const ctx = gsap.context(() => {
+      // Parallax background
+      if (bg) {
+        gsap.to(bg, {
+          yPercent: 15,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
+
+      // Heading: split lines and animate
+      const lines = heading.querySelectorAll("span");
+      gsap.from(lines, {
+        y: 100,
+        opacity: 0,
+        rotationX: -45,
+        transformOrigin: "50% 100%",
+        stagger: 0.2,
+        duration: 1.4,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: heading,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="mission" className="relative py-28 md:py-40 px-4 overflow-hidden">
-      {/* Subtle background */}
+    <section ref={sectionRef} id="mission" className="relative py-28 md:py-40 px-4 overflow-hidden">
+      {/* Subtle background with parallax */}
       <div
-        className="absolute inset-0 opacity-20"
+        data-mission-bg
+        className="absolute inset-0 opacity-20 will-change-transform"
         style={{
           backgroundImage: `url(${darkCaveBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       />
-      <div className="absolute inset-0" style={{ background: "hsl(var(--cave-deep))" , opacity: 0.85 }} />
+      <div className="absolute inset-0" style={{ background: "hsl(var(--cave-deep))", opacity: 0.85 }} />
 
       <div className="container mx-auto max-w-5xl relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 1 }}
-          className="text-center mb-20"
-        >
-          <p className="font-heading text-xs tracking-[0.5em] uppercase text-fire mb-6">The Mission</p>
-          <h2 className="text-display text-3xl sm:text-4xl md:text-6xl font-bold tracking-[0.08em] text-carved leading-tight">
-            The Gathering<br />of the 100
+        <div className="text-center mb-20">
+          <motion.p
+            className="font-heading text-xs tracking-[0.5em] uppercase text-fire mb-6"
+            initial={{ opacity: 0, letterSpacing: "1em" }}
+            whileInView={{ opacity: 1, letterSpacing: "0.5em" }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          >
+            The Mission
+          </motion.p>
+          <h2
+            ref={headingRef}
+            className="text-display text-3xl sm:text-4xl md:text-6xl font-bold tracking-[0.08em] text-carved leading-tight overflow-hidden"
+          >
+            <span className="block">The Gathering</span>
+            <span className="block">of the 100</span>
           </h2>
-        </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-center">
+          {/* Text — stagger reveal with Framer Motion */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2 }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.2, delayChildren: 0.3 } },
+            }}
           >
-            <p className="text-xl md:text-2xl font-body leading-relaxed mb-8" style={{ color: "hsl(var(--bone))" }}>
+            <motion.p
+              className="text-xl md:text-2xl font-body leading-relaxed mb-8"
+              style={{ color: "hsl(var(--bone))" }}
+              variants={{
+                hidden: { opacity: 0, x: -40, filter: "blur(8px)" },
+                visible: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 1 } },
+              }}
+            >
               From every corner of the land, 100 warriors answer the call. Not chosen by blood, but by fire — the fire to speak, to lead, to conquer.
-            </p>
-            <p className="text-lg font-body leading-relaxed text-bone-muted mb-10">
+            </motion.p>
+            <motion.p
+              className="text-lg font-body leading-relaxed text-bone-muted mb-10"
+              variants={{
+                hidden: { opacity: 0, x: -40, filter: "blur(8px)" },
+                visible: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 1 } },
+              }}
+            >
               This is not a competition. This is a proving ground. Each delegate will be forged through trials of voice and will, emerging as leaders of a new age.
-            </p>
-            <div className="section-divider-thick w-24" />
+            </motion.p>
+            <motion.div
+              className="section-divider-thick w-24"
+              variants={{
+                hidden: { scaleX: 0 },
+                visible: { scaleX: 1, transition: { duration: 1.2, ease: "easeOut" } },
+              }}
+              style={{ transformOrigin: "left" }}
+            />
           </motion.div>
 
+          {/* Image — scale + rotate entrance */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.7, rotate: -5 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.4 }}
+            transition={{ duration: 1.2, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="flex justify-center"
           >
-            <div className="petroglyph-card p-8 max-w-sm">
+            <motion.div
+              className="petroglyph-card p-8 max-w-sm"
+              whileHover={{ scale: 1.03, boxShadow: "0 0 40px hsla(24, 80%, 50%, 0.2)" }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
               <img
                 src={petroglyphGathering}
                 alt="The Gathering — primitive cave art depicting the assembly"
@@ -62,7 +150,7 @@ const MissionSection = () => {
               <p className="text-center font-heading text-xs tracking-[0.4em] uppercase mt-6 text-bone-muted">
                 The Assembly Awaits
               </p>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
