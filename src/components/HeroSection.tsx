@@ -165,6 +165,9 @@ const HeroSection = () => {
         >
           Of Fire & The New Age
         </motion.p>
+
+        {/* Countdown Timer */}
+        <CountdownTimer targetDate="2026-04-15T09:00:00" />
       </div>
 
       {/* Scroll indicator — Framer Motion spring bounce */}
