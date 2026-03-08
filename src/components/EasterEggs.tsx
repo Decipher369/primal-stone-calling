@@ -84,6 +84,7 @@ export function useEasterEggs() {
       if (clickTimes.current.length >= 7) {
         clickTimes.current = [];
         setWarDrums(true);
+        playWarDrums();
         setTimeout(() => setWarDrums(false), 4000);
       }
     };
