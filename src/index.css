@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700;800;900&family=IM+Fell+English:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,54 +6,55 @@
 
 @layer base {
   :root {
-    --background: 200 10% 8%;
-    --foreground: 40 20% 85%;
+    --background: 25 30% 6%;
+    --foreground: 35 30% 88%;
 
-    --card: 200 8% 12%;
-    --card-foreground: 40 20% 85%;
+    --card: 25 20% 10%;
+    --card-foreground: 35 30% 88%;
 
-    --popover: 200 8% 12%;
-    --popover-foreground: 40 20% 85%;
+    --popover: 25 20% 10%;
+    --popover-foreground: 35 30% 88%;
 
-    --primary: 24 85% 50%;
-    --primary-foreground: 40 20% 95%;
+    --primary: 24 80% 50%;
+    --primary-foreground: 35 40% 95%;
 
-    --secondary: 150 20% 18%;
-    --secondary-foreground: 40 20% 85%;
+    --secondary: 25 15% 14%;
+    --secondary-foreground: 35 30% 88%;
 
-    --muted: 200 8% 16%;
-    --muted-foreground: 200 10% 50%;
+    --muted: 25 12% 18%;
+    --muted-foreground: 30 15% 50%;
 
-    --accent: 150 30% 25%;
-    --accent-foreground: 40 20% 90%;
+    --accent: 30 60% 40%;
+    --accent-foreground: 35 30% 92%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 200 8% 20%;
-    --input: 200 8% 20%;
-    --ring: 24 85% 50%;
+    --border: 30 15% 20%;
+    --input: 30 15% 20%;
+    --ring: 24 80% 50%;
 
-    --radius: 0.25rem;
+    --radius: 0rem;
 
-    /* Custom tribal tokens */
-    --fire: 24 85% 50%;
-    --fire-glow: 15 90% 55%;
-    --ember: 30 100% 60%;
-    --bone: 40 20% 85%;
-    --slate-dark: 200 10% 8%;
-    --slate-mid: 200 8% 16%;
-    --forest: 150 30% 25%;
-    --forest-dark: 150 20% 12%;
-    --moss: 120 25% 30%;
+    /* Primal tokens */
+    --fire: 24 80% 50%;
+    --fire-glow: 18 85% 55%;
+    --ember: 32 100% 58%;
+    --bone: 35 30% 88%;
+    --bone-muted: 35 20% 65%;
+    --cave-deep: 25 30% 6%;
+    --cave-mid: 25 20% 12%;
+    --cave-surface: 25 15% 18%;
+    --burnt-earth: 15 40% 20%;
+    --ochre: 28 70% 45%;
 
     --font-display: 'Cinzel Decorative', serif;
     --font-heading: 'Cinzel', serif;
-    --font-body: 'IM Fell English', serif;
+    --font-body: 'Cormorant Garamond', serif;
 
-    --shadow-carved: inset 0 2px 4px hsl(0 0% 0% / 0.6), inset 0 -1px 2px hsl(40 20% 85% / 0.08);
-    --shadow-fire: 0 0 30px hsl(24 85% 50% / 0.4), 0 0 60px hsl(24 85% 50% / 0.2);
-    --shadow-ember: 0 0 15px hsl(30 100% 60% / 0.6), 0 0 40px hsl(24 85% 50% / 0.3);
+    --shadow-carved: inset 0 1px 3px hsl(0 0% 0% / 0.7), inset 0 -1px 1px hsl(35 30% 88% / 0.04);
+    --shadow-fire: 0 0 40px hsl(24 80% 50% / 0.3), 0 0 80px hsl(24 80% 50% / 0.1);
+    --shadow-ember: 0 0 20px hsl(32 100% 58% / 0.5), 0 0 50px hsl(24 80% 50% / 0.2);
   }
 }
 
@@ -64,6 +65,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
@@ -74,75 +76,90 @@
   .text-carved {
     color: hsl(var(--bone));
     text-shadow:
-      0 1px 0 hsl(0 0% 0% / 0.8),
-      0 2px 4px hsl(0 0% 0% / 0.5),
-      0 -1px 0 hsl(40 20% 85% / 0.05);
-    letter-spacing: 0.05em;
+      0 1px 0 hsl(0 0% 0% / 0.6),
+      0 2px 6px hsl(0 0% 0% / 0.4);
+    letter-spacing: 0.08em;
   }
 
   .text-fire {
     color: hsl(var(--fire));
     text-shadow:
-      0 0 10px hsl(var(--fire) / 0.6),
-      0 0 30px hsl(var(--fire) / 0.3),
-      0 0 60px hsl(var(--fire) / 0.15);
+      0 0 15px hsl(var(--fire) / 0.5),
+      0 0 40px hsl(var(--fire) / 0.2),
+      0 0 80px hsl(var(--fire) / 0.1);
   }
 
   .text-display {
     font-family: var(--font-display);
   }
 
-  .stone-surface {
-    background-color: hsl(var(--slate-dark));
-    box-shadow: var(--shadow-carved);
-    border: 1px solid hsl(var(--border));
-  }
-
-  .btn-brand {
-    @apply relative px-8 py-4 font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer;
-    font-family: var(--font-heading);
-    background: linear-gradient(135deg, hsl(var(--fire)), hsl(var(--fire-glow)));
-    color: hsl(var(--primary-foreground));
-    box-shadow: var(--shadow-fire);
-    border: 2px solid hsl(var(--ember) / 0.5);
-    text-shadow: 0 1px 2px hsl(0 0% 0% / 0.5);
-  }
-  .btn-brand:hover {
-    box-shadow: var(--shadow-ember), 0 0 80px hsl(24 85% 50% / 0.4);
-    transform: scale(1.03);
-    border-color: hsl(var(--ember));
-  }
-
-  .petroglyph-card {
-    @apply relative overflow-hidden rounded-sm;
-    background: hsl(var(--slate-mid));
-    border: 1px solid hsl(var(--border));
-    box-shadow: var(--shadow-carved);
+  .text-bone-muted {
+    color: hsl(var(--bone-muted));
   }
 
   .section-divider {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, hsl(var(--fire) / 0.4), transparent);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--fire) / 0.3), transparent);
+  }
+
+  .section-divider-thick {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 5%, hsl(var(--bone) / 0.15) 30%, hsl(var(--bone) / 0.15) 70%, transparent 95%);
+  }
+
+  .btn-brand {
+    @apply relative inline-block px-10 py-4 font-semibold uppercase tracking-[0.35em] transition-all duration-500 cursor-pointer text-sm;
+    font-family: var(--font-heading);
+    color: hsl(var(--bone));
+    border: 1px solid hsl(var(--bone) / 0.4);
+    background: transparent;
+  }
+  .btn-brand:hover {
+    border-color: hsl(var(--fire));
+    color: hsl(var(--fire));
+    box-shadow: 0 0 30px hsl(var(--fire) / 0.15);
+  }
+
+  .btn-brand-filled {
+    @apply relative inline-block px-10 py-4 font-semibold uppercase tracking-[0.35em] transition-all duration-500 cursor-pointer text-sm;
+    font-family: var(--font-heading);
+    color: hsl(var(--cave-deep));
+    background: hsl(var(--fire));
+    border: 1px solid hsl(var(--fire));
+  }
+  .btn-brand-filled:hover {
+    background: hsl(var(--fire-glow));
+    box-shadow: var(--shadow-fire);
+  }
+
+  .petroglyph-card {
+    @apply relative overflow-hidden;
+    background: hsl(var(--cave-mid));
+    border: 1px solid hsl(var(--border));
+  }
+
+  .nav-link {
+    @apply relative text-xs uppercase tracking-[0.3em] transition-colors duration-300;
+    font-family: var(--font-heading);
+    color: hsl(var(--bone-muted));
+  }
+  .nav-link:hover {
+    color: hsl(var(--bone));
   }
 }
 
-/* Spark/ember particle keyframes */
-@keyframes spark-fly {
-  0% { transform: translate(0, 0) scale(1); opacity: 1; }
-  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
 @keyframes fire-flicker {
-  0%, 100% { text-shadow: 0 0 10px hsl(24 85% 50% / 0.6), 0 0 30px hsl(24 85% 50% / 0.3); }
-  50% { text-shadow: 0 0 20px hsl(24 85% 50% / 0.8), 0 0 50px hsl(24 85% 50% / 0.5), 0 0 80px hsl(15 90% 55% / 0.3); }
+  0%, 100% { text-shadow: 0 0 15px hsl(24 80% 50% / 0.5), 0 0 40px hsl(24 80% 50% / 0.2); }
+  50% { text-shadow: 0 0 25px hsl(24 80% 50% / 0.7), 0 0 60px hsl(24 80% 50% / 0.35), 0 0 100px hsl(18 85% 55% / 0.2); }
 }
 
-@keyframes float-up {
-  0% { transform: translateY(0) scale(1); opacity: 0.8; }
-  100% { transform: translateY(-100px) scale(0.3); opacity: 0; }
+@keyframes slow-zoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+@keyframes float-ember {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { transform: translateY(-120px) translateX(var(--drift)) scale(0.3); opacity: 0; }
 }
