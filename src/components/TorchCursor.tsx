@@ -95,59 +95,37 @@ const TorchCursor = () => {
         ))}
       </AnimatePresence>
 
-      {/* Torch cursor */}
+      {/* Stone arrow cursor */}
       <div
         className="absolute"
         style={{
-          left: pos.x - 12,
-          top: pos.y - 28,
-          filter: "drop-shadow(0 0 8px hsl(var(--fire) / 0.6))",
+          left: pos.x - 4,
+          top: pos.y - 2,
+          filter: "drop-shadow(0 2px 4px hsl(0 0% 0% / 0.5))",
         }}
       >
-        {/* Torch SVG */}
-        <svg width="24" height="36" viewBox="0 0 24 36" fill="none">
-          {/* Handle */}
-          <rect x="10" y="16" width="4" height="18" rx="1.5" fill="hsl(30 25% 25%)" />
-          <rect x="10.5" y="16" width="1" height="18" rx="0.5" fill="hsl(30 20% 30%)" opacity="0.4" />
-          {/* Wrap */}
-          <rect x="9" y="15" width="6" height="4" rx="1" fill="hsl(25 20% 20%)" />
-          {/* Flame outer */}
-          <motion.path
-            d="M12 2 C6 8 5 12 8 16 C9 14 10 12 12 11 C14 12 15 14 16 16 C19 12 18 8 12 2Z"
-            fill="hsl(var(--fire) / 0.7)"
-            animate={{
-              d: [
-                "M12 2 C6 8 5 12 8 16 C9 14 10 12 12 11 C14 12 15 14 16 16 C19 12 18 8 12 2Z",
-                "M12 1 C7 7 4 11 8 16 C9 13 11 11 12 10 C13 11 15 13 16 16 C20 11 17 7 12 1Z",
-                "M12 2 C6 8 5 12 8 16 C9 14 10 12 12 11 C14 12 15 14 16 16 C19 12 18 8 12 2Z",
-              ],
-            }}
-            transition={{ repeat: Infinity, duration: 0.4, ease: "easeInOut" }}
+        <svg width="28" height="34" viewBox="0 0 28 34" fill="none">
+          {/* Flint arrowhead */}
+          <path
+            d="M4 1 L14 13 L24 1 L14 5 Z"
+            fill="hsl(25 15% 30%)"
+            stroke="hsl(25 10% 22%)"
+            strokeWidth="0.5"
           />
-          {/* Flame inner */}
-          <motion.path
-            d="M12 6 C9 10 9 12 10 15 C11 13 11.5 12 12 11.5 C12.5 12 13 13 14 15 C15 12 15 10 12 6Z"
-            fill="hsl(var(--ember) / 0.9)"
-            animate={{
-              d: [
-                "M12 6 C9 10 9 12 10 15 C11 13 11.5 12 12 11.5 C12.5 12 13 13 14 15 C15 12 15 10 12 6Z",
-                "M12 5 C10 9 9 11 10 15 C11 12 11.5 11 12 10.5 C12.5 11 13 12 14 15 C15 11 14 9 12 5Z",
-                "M12 6 C9 10 9 12 10 15 C11 13 11.5 12 12 11.5 C12.5 12 13 13 14 15 C15 12 15 10 12 6Z",
-              ],
-            }}
-            transition={{ repeat: Infinity, duration: 0.3, ease: "easeInOut" }}
-          />
-          {/* Flame core */}
-          <ellipse cx="12" cy="11" rx="2" ry="3" fill="hsl(45 100% 80% / 0.8)" />
+          {/* Arrowhead highlight edge */}
+          <path d="M4 1 L14 13" stroke="hsl(var(--bone) / 0.15)" strokeWidth="0.5" />
+          {/* Shaft */}
+          <line x1="14" y1="13" x2="14" y2="32" stroke="hsl(30 20% 28%)" strokeWidth="2.5" strokeLinecap="round" />
+          {/* Wood grain */}
+          <line x1="14" y1="16" x2="14" y2="17" stroke="hsl(30 15% 35%)" strokeWidth="1" opacity="0.4" />
+          <line x1="14" y1="22" x2="14" y2="23" stroke="hsl(30 15% 35%)" strokeWidth="1" opacity="0.3" />
+          <line x1="14" y1="28" x2="14" y2="29" stroke="hsl(30 15% 35%)" strokeWidth="1" opacity="0.3" />
+          {/* Binding wrap */}
+          <path d="M12.5 12 L15.5 13.5 L12.5 15 L15.5 16.5" stroke="hsl(25 30% 40%)" strokeWidth="0.8" fill="none" />
+          {/* Fletching */}
+          <path d="M14 29 L10 33 L14 31" fill="hsl(25 12% 35%)" opacity="0.7" />
+          <path d="M14 29 L18 33 L14 31" fill="hsl(25 12% 35%)" opacity="0.7" />
         </svg>
-
-        {/* Ambient glow */}
-        <div
-          className="absolute -inset-4 rounded-full"
-          style={{
-            background: "radial-gradient(circle, hsl(var(--fire) / 0.15) 0%, transparent 70%)",
-          }}
-        />
       </div>
     </div>
   );
