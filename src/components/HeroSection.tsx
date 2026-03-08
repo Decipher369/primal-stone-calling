@@ -1,8 +1,77 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import primalHeroBg from "@/assets/primal-hero-bg.jpg";
 
+
+function useCountdown(targetDate: string) {
+  const getTimeLeft = () => {
+    const diff = Math.max(0, new Date(targetDate).getTime() - Date.now());
+    return {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / (1000 * 60)) % 60),
+      seconds: Math.floor((diff / 1000) % 60),
+    };
+  };
+  const [time, setTime] = useState(getTimeLeft);
+  useEffect(() => {
+    const id = setInterval(() => setTime(getTimeLeft()), 1000);
+    return () => clearInterval(id);
+  }, [targetDate]);
+  return time;
+}
+
+const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
+  const { days, hours, minutes, seconds } = useCountdown(targetDate);
+  const units = [
+    { label: "Days", value: days },
+    { label: "Hours", value: hours },
+    { label: "Min", value: minutes },
+    { label: "Sec", value: seconds },
+  ];
+
+  return (
+    <motion.div
+      className="mt-10 flex items-center justify-center gap-3 md:gap-6"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 3.2, duration: 1 }}
+    >
+      {units.map((u, i) => (
+        <div key={u.label} className="flex items-center gap-3 md:gap-6">
+          <div className="flex flex-col items-center">
+            <span
+              className="font-display text-2xl sm:text-3xl md:text-5xl tabular-nums"
+              style={{
+                color: "hsl(var(--bone))",
+                textShadow: "0 0 20px hsl(var(--fire) / 0.4)",
+              }}
+            >
+              {String(u.value).padStart(2, "0")}
+            </span>
+            <span
+              className="font-heading text-[9px] md:text-xs tracking-[0.3em] uppercase mt-1"
+              style={{ color: "hsl(var(--bone-muted))" }}
+            >
+              {u.label}
+            </span>
+          </div>
+          {i < units.length - 1 && (
+            <motion.span
+              className="text-xl md:text-3xl font-light -mt-4"
+              style={{ color: "hsl(var(--fire) / 0.5)" }}
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ repeat: Infinity, duration: 1 }}
+            >
+              :
+            </motion.span>
+          )}
+        </div>
+      ))}
+    </motion.div>
+  );
+};
 
 const HeroSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -165,6 +234,9 @@ const HeroSection = () => {
         >
           Of Fire & The New Age
         </motion.p>
+
+        {/* Countdown Timer */}
+        <CountdownTimer targetDate="2026-04-15T09:00:00" />
       </div>
 
       {/* Scroll indicator — Framer Motion spring bounce */}
