@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { playStampede, playFireBurst, playProphecy, playGhostWind, playWarDrums, playGong } from "@/lib/sounds";
 
 /**
  * Easter Eggs system for the tribal site.
