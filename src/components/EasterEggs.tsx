@@ -69,6 +69,7 @@ export function useEasterEggs() {
         if (typedChars.current.endsWith(SECRET_WORD)) {
           typedChars.current = "";
           setFireBurst(true);
+          playFireBurst();
           setTimeout(() => setFireBurst(false), 3000);
         }
       }
