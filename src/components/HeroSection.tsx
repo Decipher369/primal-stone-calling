@@ -1,4 +1,4 @@
-import { useEffect, useRef, Suspense } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import primalHeroBg from "@/assets/primal-hero-bg.jpg";
