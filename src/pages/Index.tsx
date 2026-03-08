@@ -46,6 +46,8 @@ const Index = () => {
 
       <CallToAction onJoinClick={() => setIsModalOpen(true)} />
 
+      <TribalProcession />
+
       {/* Footer */}
       <footer className="py-16 px-4 text-center" style={{ borderTop: "1px solid hsl(var(--border))" }}>
         <img src={tribalEmblem} alt="Team Alpha" className="h-10 w-auto mx-auto mb-6 opacity-60" />
