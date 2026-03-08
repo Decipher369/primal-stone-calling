@@ -2,9 +2,7 @@ import { motion } from "framer-motion";
 import primalHeroBg from "@/assets/primal-hero-bg.jpg";
 import { useEffect, useRef } from "react";
 
-const TORCH_COUNT = 40;
-
-const FireBorderCanvas = () => {
+const EmberCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -14,9 +12,10 @@ const FireBorderCanvas = () => {
     let animId: number;
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
     window.addEventListener("resize", resize);
@@ -24,100 +23,114 @@ const FireBorderCanvas = () => {
     const w = () => canvas.offsetWidth;
     const h = () => canvas.offsetHeight;
 
-    // Generate torch positions along the border
-    const getTorchPositions = () => {
-      const positions: { x: number; y: number }[] = [];
-      const perimeter = 2 * (w() + h());
-      const spacing = perimeter / TORCH_COUNT;
-
-      for (let i = 0; i < TORCH_COUNT; i++) {
-        const d = i * spacing;
-        let x: number, y: number;
-        if (d < w()) { x = d; y = 0; }
-        else if (d < w() + h()) { x = w(); y = d - w(); }
-        else if (d < 2 * w() + h()) { x = w() - (d - w() - h()); y = h(); }
-        else { x = 0; y = h() - (d - 2 * w() - h()); }
-        positions.push({ x, y });
-      }
-      return positions;
+    type Ember = {
+      x: number; y: number;
+      vx: number; vy: number;
+      size: number;
+      life: number; maxLife: number;
+      hue: number; sat: number; light: number;
+      wobbleSpeed: number; wobbleAmp: number;
+      type: "spark" | "ember" | "ash";
     };
 
-    // Particles per torch
-    type Particle = {
-      x: number; y: number; vx: number; vy: number;
-      life: number; maxLife: number; size: number;
-      hue: number; brightness: number;
-    };
+    const embers: Ember[] = [];
 
-    const particles: Particle[] = [];
+    const spawn = () => {
+      const type = Math.random() < 0.15 ? "spark" : Math.random() < 0.7 ? "ember" : "ash";
 
-    const spawnParticle = (tx: number, ty: number) => {
-      particles.push({
-        x: tx + (Math.random() - 0.5) * 6,
-        y: ty + (Math.random() - 0.5) * 6,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: -1 - Math.random() * 2.5,
+      const ember: Ember = {
+        x: Math.random() * w(),
+        y: h() + 10 + Math.random() * 40,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: type === "spark" ? -(2.5 + Math.random() * 3) : -(0.4 + Math.random() * 1.2),
+        size: type === "spark" ? 1 + Math.random() * 2 : type === "ember" ? 1.5 + Math.random() * 3.5 : 0.8 + Math.random() * 1.5,
         life: 0,
-        maxLife: 30 + Math.random() * 40,
-        size: 2 + Math.random() * 4,
-        hue: 15 + Math.random() * 25,
-        brightness: 50 + Math.random() * 40,
-      });
+        maxLife: type === "spark" ? 40 + Math.random() * 50 : 120 + Math.random() * 200,
+        hue: type === "ash" ? 30 + Math.random() * 10 : 10 + Math.random() * 30,
+        sat: type === "ash" ? 20 : 80 + Math.random() * 20,
+        light: type === "spark" ? 70 + Math.random() * 25 : type === "ember" ? 45 + Math.random() * 25 : 25 + Math.random() * 15,
+        wobbleSpeed: 0.02 + Math.random() * 0.04,
+        wobbleAmp: 0.3 + Math.random() * 1.2,
+        type,
+      };
+      embers.push(ember);
     };
 
-    let frame = 0;
+    // Pre-fill some embers
+    for (let i = 0; i < 60; i++) {
+      spawn();
+      const e = embers[embers.length - 1];
+      e.y = Math.random() * h();
+      e.life = Math.random() * e.maxLife * 0.6;
+    }
+
     const draw = () => {
       ctx.clearRect(0, 0, w(), h());
-      frame++;
 
-      const torches = getTorchPositions();
+      // Spawn new embers
+      if (Math.random() < 0.4) spawn();
+      if (Math.random() < 0.08) spawn(); // occasional extra burst
 
-      // Spawn particles from torches
-      if (frame % 2 === 0) {
-        torches.forEach((t) => {
-          if (Math.random() < 0.7) spawnParticle(t.x, t.y);
-        });
-      }
+      for (let i = embers.length - 1; i >= 0; i--) {
+        const e = embers[i];
+        e.life++;
 
-      // Draw torch glow
-      torches.forEach((t) => {
-        const flickerR = 12 + Math.sin(frame * 0.15 + t.x * 0.1) * 5;
-        const grad = ctx.createRadialGradient(t.x, t.y, 0, t.x, t.y, flickerR);
-        grad.addColorStop(0, `hsla(24, 90%, 55%, 0.6)`);
-        grad.addColorStop(0.4, `hsla(20, 80%, 45%, 0.25)`);
-        grad.addColorStop(1, `hsla(20, 80%, 40%, 0)`);
-        ctx.fillStyle = grad;
-        ctx.fillRect(t.x - flickerR, t.y - flickerR, flickerR * 2, flickerR * 2);
-      });
+        // Wobble wind
+        e.vx += Math.sin(e.life * e.wobbleSpeed) * e.wobbleAmp * 0.02;
+        e.x += e.vx;
+        e.y += e.vy;
 
-      // Update & draw particles
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.life++;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vx *= 0.98;
-        p.vy *= 0.97;
-        p.size *= 0.98;
+        // Slight deceleration
+        if (e.type !== "spark") e.vy *= 0.999;
 
-        const alpha = 1 - p.life / p.maxLife;
-        if (alpha <= 0 || p.size < 0.3) {
-          particles.splice(i, 1);
+        const progress = e.life / e.maxLife;
+        
+        // Fade: bright start, slow fade, quick end
+        let alpha: number;
+        if (progress < 0.1) alpha = progress / 0.1;
+        else if (progress < 0.7) alpha = 1;
+        else alpha = 1 - (progress - 0.7) / 0.3;
+        alpha = Math.max(0, alpha);
+
+        // Shrink near end
+        const sizeMultiplier = progress > 0.8 ? 1 - (progress - 0.8) / 0.2 : 1;
+        const currentSize = e.size * sizeMultiplier;
+
+        if (alpha <= 0 || currentSize < 0.2 || e.y < -20 || e.x < -20 || e.x > w() + 20) {
+          embers.splice(i, 1);
           continue;
         }
 
-        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        grad.addColorStop(0, `hsla(${p.hue}, 100%, ${p.brightness}%, ${alpha})`);
-        grad.addColorStop(0.6, `hsla(${p.hue}, 90%, ${p.brightness * 0.6}%, ${alpha * 0.5})`);
-        grad.addColorStop(1, `hsla(${p.hue}, 80%, 30%, 0)`);
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
+        if (e.type === "spark") {
+          // Bright sharp spark
+          ctx.fillStyle = `hsla(${e.hue}, ${e.sat}%, ${e.light}%, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(e.x, e.y, currentSize, 0, Math.PI * 2);
+          ctx.fill();
+          // Glow
+          ctx.fillStyle = `hsla(${e.hue}, 100%, 80%, ${alpha * 0.3})`;
+          ctx.beginPath();
+          ctx.arc(e.x, e.y, currentSize * 3, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (e.type === "ember") {
+          // Soft glowing ember
+          const grad = ctx.createRadialGradient(e.x, e.y, 0, e.x, e.y, currentSize * 2);
+          grad.addColorStop(0, `hsla(${e.hue}, ${e.sat}%, ${e.light}%, ${alpha * 0.9})`);
+          grad.addColorStop(0.5, `hsla(${e.hue}, ${e.sat}%, ${e.light * 0.6}%, ${alpha * 0.4})`);
+          grad.addColorStop(1, `hsla(${e.hue}, ${e.sat}%, ${e.light * 0.3}%, 0)`);
+          ctx.fillStyle = grad;
+          ctx.fillRect(e.x - currentSize * 2, e.y - currentSize * 2, currentSize * 4, currentSize * 4);
+        } else {
+          // Dim ash — just a tiny dot
+          ctx.fillStyle = `hsla(${e.hue}, ${e.sat}%, ${e.light}%, ${alpha * 0.5})`;
+          ctx.beginPath();
+          ctx.arc(e.x, e.y, currentSize, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
 
-      // Limit particle count
-      while (particles.length > 800) particles.shift();
+      // Cap particles
+      while (embers.length > 200) embers.shift();
 
       animId = requestAnimationFrame(draw);
     };
@@ -133,7 +146,7 @@ const FireBorderCanvas = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 z-[2] pointer-events-none w-full h-full"
+      className="absolute inset-0 z-[3] pointer-events-none w-full h-full"
     />
   );
 };
@@ -162,8 +175,16 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Fire/torch border */}
-      <FireBorderCanvas />
+      {/* Bottom fire glow */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-40 z-[2]"
+        style={{
+          background: "linear-gradient(to top, hsl(24 80% 50% / 0.08), transparent)",
+        }}
+      />
+
+      {/* Floating embers & sparks */}
+      <EmberCanvas />
 
       {/* Content */}
       <div className="relative z-10 text-center px-4">
