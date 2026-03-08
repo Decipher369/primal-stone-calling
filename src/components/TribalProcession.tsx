@@ -285,26 +285,36 @@ const DrummerWalking = () => (
   </svg>
 );
 
-// The procession sequence — varied figures create a realistic caravan
-const processionSequence = [
-  { key: "w1", El: WarriorWithSpear, h: 80 },
-  { key: "wm1", El: WomanWithBasket, h: 76 },
-  { key: "cd1", El: ChildWithDog, h: 52 },
-  { key: "mm1", El: Mammoth, h: 90 },
-  { key: "el1", El: ElderWithStaff, h: 78 },
-  { key: "dr1", El: DrummerWalking, h: 76 },
-  { key: "st1", El: SabretoothTiger, h: 55 },
-  { key: "ww1", El: WomanWalking, h: 74 },
-  { key: "hc1", El: HunterCrouching, h: 58 },
-  { key: "w2", El: WarriorWithSpear, h: 80 },
-  { key: "mm2", El: Mammoth, h: 90 },
-  { key: "wm2", El: WomanWithBasket, h: 76 },
-  { key: "cd2", El: ChildWithDog, h: 52 },
-  { key: "el2", El: ElderWithStaff, h: 78 },
-  { key: "st2", El: SabretoothTiger, h: 55 },
-  { key: "dr2", El: DrummerWalking, h: 76 },
-  { key: "ww2", El: WomanWalking, h: 74 },
-  { key: "hc2", El: HunterCrouching, h: 58 },
+// Each figure gets a bob speed, amplitude, and optional sway
+type FigureEntry = {
+  key: string;
+  El: () => JSX.Element;
+  h: number;
+  bobDuration: number;  // seconds for one bob cycle
+  bobAmount: number;    // pixels of vertical bob
+  swayAmount?: number;  // degrees of rotation sway
+  swayDuration?: number;
+};
+
+const processionSequence: FigureEntry[] = [
+  { key: "w1", El: WarriorWithSpear, h: 80, bobDuration: 0.7, bobAmount: 3 },
+  { key: "wm1", El: WomanWithBasket, h: 76, bobDuration: 0.8, bobAmount: 2.5 },
+  { key: "cd1", El: ChildWithDog, h: 52, bobDuration: 0.55, bobAmount: 4 },
+  { key: "mm1", El: Mammoth, h: 90, bobDuration: 1.2, bobAmount: 2, swayAmount: 1.5, swayDuration: 2.4 },
+  { key: "el1", El: ElderWithStaff, h: 78, bobDuration: 1.0, bobAmount: 2 },
+  { key: "dr1", El: DrummerWalking, h: 76, bobDuration: 0.6, bobAmount: 3.5 },
+  { key: "st1", El: SabretoothTiger, h: 55, bobDuration: 0.5, bobAmount: 2, swayAmount: 1, swayDuration: 1.0 },
+  { key: "ww1", El: WomanWalking, h: 74, bobDuration: 0.75, bobAmount: 2.5 },
+  { key: "hc1", El: HunterCrouching, h: 58, bobDuration: 0.9, bobAmount: 1.5 },
+  { key: "w2", El: WarriorWithSpear, h: 80, bobDuration: 0.7, bobAmount: 3 },
+  { key: "mm2", El: Mammoth, h: 90, bobDuration: 1.2, bobAmount: 2, swayAmount: 1.5, swayDuration: 2.4 },
+  { key: "wm2", El: WomanWithBasket, h: 76, bobDuration: 0.8, bobAmount: 2.5 },
+  { key: "cd2", El: ChildWithDog, h: 52, bobDuration: 0.55, bobAmount: 4 },
+  { key: "el2", El: ElderWithStaff, h: 78, bobDuration: 1.0, bobAmount: 2 },
+  { key: "st2", El: SabretoothTiger, h: 55, bobDuration: 0.5, bobAmount: 2, swayAmount: 1, swayDuration: 1.0 },
+  { key: "dr2", El: DrummerWalking, h: 76, bobDuration: 0.6, bobAmount: 3.5 },
+  { key: "ww2", El: WomanWalking, h: 74, bobDuration: 0.75, bobAmount: 2.5 },
+  { key: "hc2", El: HunterCrouching, h: 58, bobDuration: 0.9, bobAmount: 1.5 },
 ];
 
 const maxH = 90;
@@ -312,17 +322,38 @@ const maxH = 90;
 const TribalProcession = () => {
   const renderSequence = (keyPrefix: string) => (
     <div className="flex items-end gap-6 md:gap-10 shrink-0 pr-6 md:pr-10">
-      {processionSequence.map((item) => (
-        <div
+      {processionSequence.map((item, i) => (
+        <motion.div
           key={`${keyPrefix}-${item.key}`}
           className="shrink-0 flex items-end"
           style={{
             height: maxH,
             color: "hsl(var(--bone) / 0.22)",
+            transformOrigin: "bottom center",
+          }}
+          animate={{
+            y: [0, -item.bobAmount, 0],
+            rotate: item.swayAmount
+              ? [-item.swayAmount, item.swayAmount, -item.swayAmount]
+              : [0, 0, 0],
+          }}
+          transition={{
+            y: {
+              repeat: Infinity,
+              duration: item.bobDuration,
+              ease: "easeInOut",
+              delay: i * 0.12, // stagger so they don't all bob in sync
+            },
+            rotate: {
+              repeat: Infinity,
+              duration: item.swayDuration ?? item.bobDuration * 2,
+              ease: "easeInOut",
+              delay: i * 0.12,
+            },
           }}
         >
           <item.El />
-        </div>
+        </motion.div>
       ))}
     </div>
   );
