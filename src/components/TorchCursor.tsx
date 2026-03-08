@@ -95,36 +95,37 @@ const TorchCursor = () => {
         ))}
       </AnimatePresence>
 
-      {/* Stone arrow cursor */}
+      {/* Stone-age pointer arrow (default cursor shape) */}
       <div
         className="absolute"
         style={{
-          left: pos.x - 4,
-          top: pos.y - 2,
-          filter: "drop-shadow(0 2px 4px hsl(0 0% 0% / 0.5))",
+          left: pos.x,
+          top: pos.y,
+          filter: "drop-shadow(0 1px 3px hsl(0 0% 0% / 0.6))",
         }}
       >
-        <svg width="28" height="34" viewBox="0 0 28 34" fill="none">
-          {/* Flint arrowhead */}
+        <svg width="22" height="28" viewBox="0 0 22 28" fill="none">
+          {/* Main pointer shape — classic arrow */}
           <path
-            d="M4 1 L14 13 L24 1 L14 5 Z"
-            fill="hsl(25 15% 30%)"
-            stroke="hsl(25 10% 22%)"
+            d="M2 1 L2 22 L7 17 L12 26 L15 24.5 L10 16 L17 16 Z"
+            fill="hsl(28 18% 28%)"
+            stroke="hsl(25 12% 18%)"
+            strokeWidth="1"
+            strokeLinejoin="round"
+          />
+          {/* Stone texture highlight */}
+          <path
+            d="M3 3 L3 19 L7.5 15 L10 14.5"
+            stroke="hsl(var(--bone) / 0.12)"
+            strokeWidth="0.8"
+            fill="none"
+          />
+          {/* Rough chipped edge detail */}
+          <path
+            d="M2 8 L3.5 8.5 M2 14 L3.2 13.5"
+            stroke="hsl(var(--bone) / 0.08)"
             strokeWidth="0.5"
           />
-          {/* Arrowhead highlight edge */}
-          <path d="M4 1 L14 13" stroke="hsl(var(--bone) / 0.15)" strokeWidth="0.5" />
-          {/* Shaft */}
-          <line x1="14" y1="13" x2="14" y2="32" stroke="hsl(30 20% 28%)" strokeWidth="2.5" strokeLinecap="round" />
-          {/* Wood grain */}
-          <line x1="14" y1="16" x2="14" y2="17" stroke="hsl(30 15% 35%)" strokeWidth="1" opacity="0.4" />
-          <line x1="14" y1="22" x2="14" y2="23" stroke="hsl(30 15% 35%)" strokeWidth="1" opacity="0.3" />
-          <line x1="14" y1="28" x2="14" y2="29" stroke="hsl(30 15% 35%)" strokeWidth="1" opacity="0.3" />
-          {/* Binding wrap */}
-          <path d="M12.5 12 L15.5 13.5 L12.5 15 L15.5 16.5" stroke="hsl(25 30% 40%)" strokeWidth="0.8" fill="none" />
-          {/* Fletching */}
-          <path d="M14 29 L10 33 L14 31" fill="hsl(25 12% 35%)" opacity="0.7" />
-          <path d="M14 29 L18 33 L14 31" fill="hsl(25 12% 35%)" opacity="0.7" />
         </svg>
       </div>
     </div>
