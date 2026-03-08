@@ -52,6 +52,7 @@ export function useEasterEggs() {
         if (konamiIndex.current === KONAMI.length) {
           konamiIndex.current = 0;
           setStampede(true);
+          playStampede();
           setTimeout(() => setStampede(false), 5000);
         }
       } else {
