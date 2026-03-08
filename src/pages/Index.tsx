@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from "react";
+import TorchCursor from "@/components/TorchCursor";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
