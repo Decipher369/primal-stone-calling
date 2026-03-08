@@ -46,150 +46,84 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
 
   return (
     <motion.div
-      className="mt-10 relative"
-      initial={{ opacity: 0, y: 20 }}
+      className="mt-8 relative inline-block"
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 3.2, duration: 1 }}
     >
-      {/* Stone tablet */}
+      {/* Realistic stone slab — small, rough, organic shape via clip-path */}
       <div
-        className="relative mx-auto px-5 py-5 md:px-10 md:py-7 rounded-sm"
+        className="relative px-4 py-3 md:px-6 md:py-4"
         style={{
           background: `
-            linear-gradient(135deg, hsl(var(--cave-mid)) 0%, hsl(25 18% 15%) 50%, hsl(var(--cave-surface)) 100%)
+            radial-gradient(ellipse at 30% 25%, hsl(30 12% 22%) 0%, hsl(25 14% 16%) 40%, hsl(20 10% 12%) 100%)
           `,
           boxShadow: `
-            var(--shadow-carved),
-            0 8px 32px hsl(0 0% 0% / 0.6),
-            inset 0 0 60px hsl(0 0% 0% / 0.3)
+            inset 0 2px 6px hsl(0 0% 0% / 0.5),
+            inset 0 -1px 3px hsl(var(--bone) / 0.04),
+            0 4px 16px hsl(0 0% 0% / 0.7),
+            0 1px 2px hsl(0 0% 0% / 0.4)
           `,
-          border: "1px solid hsl(var(--border))",
+          clipPath: "polygon(3% 8%, 12% 1%, 45% 3%, 78% 0%, 95% 5%, 99% 18%, 97% 75%, 100% 88%, 94% 97%, 60% 100%, 28% 98%, 8% 100%, 1% 90%, 0% 40%)",
         }}
       >
-        {/* Crack lines - decorative SVG scratches */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.12]" preserveAspectRatio="none" viewBox="0 0 400 120">
-          <path d="M0 30 Q50 25 100 35 T200 28 T300 38 T400 30" stroke="hsl(var(--bone))" strokeWidth="0.5" fill="none" />
-          <path d="M20 80 Q80 75 150 85 T280 78 T400 82" stroke="hsl(var(--bone))" strokeWidth="0.3" fill="none" />
-          <path d="M50 10 L55 50 L48 90" stroke="hsl(var(--bone))" strokeWidth="0.4" fill="none" />
-          <path d="M320 5 L325 60 L318 115" stroke="hsl(var(--bone))" strokeWidth="0.3" fill="none" />
+        {/* Grainy stone texture overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.08] pointer-events-none mix-blend-overlay"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 20% 50%, hsl(var(--bone) / 0.3) 1px, transparent 1px),
+              radial-gradient(circle at 80% 30%, hsl(var(--bone) / 0.2) 1px, transparent 1px),
+              radial-gradient(circle at 50% 80%, hsl(var(--bone) / 0.25) 1px, transparent 1px)
+            `,
+            backgroundSize: "7px 7px, 11px 11px, 5px 5px",
+          }}
+        />
+
+        {/* Subtle crack */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.08]" preserveAspectRatio="none" viewBox="0 0 200 60">
+          <path d="M30 5 L33 25 L28 50" stroke="hsl(var(--bone))" strokeWidth="0.4" fill="none" />
+          <path d="M160 8 L163 30 L158 55" stroke="hsl(var(--bone))" strokeWidth="0.3" fill="none" />
         </svg>
 
-        {/* Chipped edges */}
-        <div className="absolute -top-px left-[15%] w-[12%] h-[3px] bg-background rounded-b-full" />
-        <div className="absolute -bottom-px right-[20%] w-[8%] h-[2px] bg-background rounded-t-full" />
-        <div className="absolute -left-px top-[30%] w-[2px] h-[15%] bg-background rounded-r-full" />
-
-        {/* Top scratched label */}
-        <div className="text-center mb-3 md:mb-4">
-          <span
-            className="font-heading text-[8px] md:text-[10px] tracking-[0.5em] uppercase"
-            style={{
-              color: "hsl(var(--bone-muted) / 0.5)",
-              textShadow: "0 1px 0 hsl(0 0% 0% / 0.5)",
-            }}
-          >
-            ━━ The Gathering Begins ━━
-          </span>
-        </div>
-
-        {/* Timer digits */}
-        <div className="flex items-center justify-center gap-2 md:gap-4">
+        {/* Timer row */}
+        <div className="relative flex items-center justify-center gap-1.5 md:gap-3">
           {units.map((u, i) => (
-            <div key={u.label} className="flex items-center gap-2 md:gap-4">
-              <div className="flex flex-col items-center">
-                {/* Scratched number */}
-                <div
-                  className="relative px-2 md:px-4 py-1"
+            <div key={u.label} className="flex items-center gap-1.5 md:gap-3">
+              <div className="flex flex-col items-center min-w-[28px] md:min-w-[36px]">
+                <span
+                  className="text-sm md:text-lg tabular-nums leading-none"
                   style={{
-                    background: "linear-gradient(180deg, hsl(0 0% 0% / 0.2), hsl(0 0% 0% / 0.1))",
-                    borderRadius: "2px",
+                    fontFamily: "var(--font-display)",
+                    color: "hsl(var(--bone) / 0.7)",
+                    textShadow: "0 1px 0 hsl(0 0% 0% / 0.8)",
                   }}
                 >
-                  {/* Scratch texture behind number */}
-                  <div
-                    className="absolute inset-0 opacity-[0.06]"
-                    style={{
-                      backgroundImage: `repeating-linear-gradient(
-                        ${45 + i * 15}deg,
-                        transparent,
-                        transparent 3px,
-                        hsl(var(--bone)) 3px,
-                        hsl(var(--bone)) 3.5px
-                      )`,
-                    }}
-                  />
-                  <span
-                    className="relative text-2xl sm:text-3xl md:text-5xl tabular-nums"
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      color: "hsl(var(--bone) / 0.85)",
-                      textShadow: `
-                        0 1px 0 hsl(0 0% 0% / 0.8),
-                        0 0 15px hsl(var(--fire) / 0.2)
-                      `,
-                      WebkitTextStroke: "0.5px hsl(var(--bone) / 0.15)",
-                    }}
-                  >
-                    <StoneDigit value={u.value} />
-                  </span>
-                </div>
-
-                {/* Scratched label */}
+                  {String(u.value).padStart(2, "0")}
+                </span>
                 <span
-                  className="mt-1.5 text-[7px] md:text-[9px] tracking-[0.35em] uppercase"
+                  className="text-[5px] md:text-[6px] tracking-[0.25em] uppercase mt-0.5"
                   style={{
                     fontFamily: "var(--font-heading)",
-                    color: "hsl(var(--bone-muted) / 0.45)",
-                    textShadow: "0 1px 0 hsl(0 0% 0% / 0.5)",
+                    color: "hsl(var(--bone-muted) / 0.35)",
                   }}
                 >
                   {u.label}
                 </span>
-
-                {/* Tally marks below */}
-                <div className="flex gap-[2px] mt-1 h-2">
-                  {Array.from({ length: Math.min(u.value % 5 || 5, 5) }).map((_, t) => (
-                    <motion.div
-                      key={t}
-                      className="w-[1.5px] h-full rounded-full"
-                      style={{
-                        background: "hsl(var(--bone) / 0.2)",
-                        transform: `rotate(${-5 + t * 3}deg)`,
-                      }}
-                      animate={{ opacity: [0.15, 0.35, 0.15] }}
-                      transition={{ repeat: Infinity, duration: 2 + t * 0.3, delay: t * 0.2 }}
-                    />
-                  ))}
-                </div>
               </div>
 
-              {/* Separator: scratched dot */}
               {i < units.length - 1 && (
-                <div className="flex flex-col gap-2 -mt-4">
-                  <motion.div
-                    className="w-1.5 h-1.5 rounded-full"
-                    style={{ background: "hsl(var(--fire) / 0.4)" }}
-                    animate={{ opacity: [0.8, 0.2, 0.8], scale: [1, 0.8, 1] }}
-                    transition={{ repeat: Infinity, duration: 1.2 }}
-                  />
-                  <motion.div
-                    className="w-1.5 h-1.5 rounded-full"
-                    style={{ background: "hsl(var(--fire) / 0.4)" }}
-                    animate={{ opacity: [0.2, 0.8, 0.2], scale: [0.8, 1, 0.8] }}
-                    transition={{ repeat: Infinity, duration: 1.2 }}
-                  />
-                </div>
+                <motion.span
+                  className="text-[10px] md:text-xs -mt-2"
+                  style={{ color: "hsl(var(--bone) / 0.25)" }}
+                  animate={{ opacity: [0.4, 0.15, 0.4] }}
+                  transition={{ repeat: Infinity, duration: 1.2 }}
+                >
+                  ·
+                </motion.span>
               )}
             </div>
           ))}
-        </div>
-
-        {/* Bottom petroglyph decoration */}
-        <div className="flex justify-center gap-4 mt-3 md:mt-4 opacity-[0.15]">
-          <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 0L0 12h16z" fill="hsl(var(--bone))" /></svg>
-          <svg width="16" height="12" viewBox="0 0 16 12"><circle cx="8" cy="6" r="5" stroke="hsl(var(--bone))" strokeWidth="1" fill="none" /><circle cx="8" cy="6" r="1.5" fill="hsl(var(--bone))" /></svg>
-          <svg width="20" height="12" viewBox="0 0 20 12"><path d="M0 6Q5 0 10 6T20 6" stroke="hsl(var(--bone))" strokeWidth="1" fill="none" /></svg>
-          <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 0L0 12h16z" fill="hsl(var(--bone))" /></svg>
         </div>
       </div>
     </motion.div>
