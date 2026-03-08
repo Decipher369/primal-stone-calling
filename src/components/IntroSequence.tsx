@@ -87,7 +87,8 @@ const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
     };
   }, [handleTrigger]);
 
-  if (phase === "done") return null;
+  const isDone = phase === ("done" as string);
+  if (isDone) return null;
 
   return (
     <motion.div
