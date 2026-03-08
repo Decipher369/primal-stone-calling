@@ -41,6 +41,7 @@ const Index = () => {
 
   return (
     <div className="relative min-h-screen bg-background">
+      <TorchCursor />
       <Navbar onRegisterClick={() => setIsModalOpen(true)} />
 
       <HeroSection />
