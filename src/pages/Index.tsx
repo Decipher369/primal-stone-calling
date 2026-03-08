@@ -38,6 +38,8 @@ const Index = () => {
 
       <MissionSection />
 
+      <TribalProcession />
+
       <div className="section-divider-thick w-full max-w-5xl mx-auto" />
 
       <TrialsTimeline />
