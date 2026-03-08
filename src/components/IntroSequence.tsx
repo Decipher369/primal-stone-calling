@@ -189,7 +189,7 @@ const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
             : { x: "60vw" }
         }
         transition={
-          phase === "reveal" || phase === "done"
+          isRevealing
             ? { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
             : { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
         }
