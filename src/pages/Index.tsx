@@ -10,7 +10,7 @@ import tribalEmblem from "@/assets/tribal-emblem.png";
 const Index = () => {
   return (
     <div className="relative min-h-screen bg-background">
-      <FireEmbers />
+      
       <Navbar />
 
       <HeroSection />
