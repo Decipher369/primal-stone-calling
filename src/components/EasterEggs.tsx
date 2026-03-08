@@ -300,6 +300,7 @@ function FireBurst() {
 
 // ─── Ancient Prophecy (triple-click title) ───
 function AncientProphecy({ onClose }: { onClose: () => void }) {
+  useEffect(() => { playProphecy(); }, []);
   const lines = [
     "When the hundredth voice speaks,",
     "the stones shall remember.",
