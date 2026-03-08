@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { playStampede, playFireBurst, playProphecy, playGhostWind, playWarDrums, playGong } from "@/lib/sounds";
 
 /**
  * Easter Eggs system for the tribal site.
@@ -36,6 +37,7 @@ export function useEasterEggs() {
     if (idleTimer.current) clearTimeout(idleTimer.current);
     idleTimer.current = setTimeout(() => {
       setGhostPainting(true);
+      playGhostWind();
       setTimeout(() => setGhostPainting(false), 6000);
     }, 30000);
   }, []);
@@ -51,6 +53,7 @@ export function useEasterEggs() {
         if (konamiIndex.current === KONAMI.length) {
           konamiIndex.current = 0;
           setStampede(true);
+          playStampede();
           setTimeout(() => setStampede(false), 5000);
         }
       } else {
@@ -66,6 +69,7 @@ export function useEasterEggs() {
         if (typedChars.current.endsWith(SECRET_WORD)) {
           typedChars.current = "";
           setFireBurst(true);
+          playFireBurst();
           setTimeout(() => setFireBurst(false), 3000);
         }
       }
@@ -80,6 +84,7 @@ export function useEasterEggs() {
       if (clickTimes.current.length >= 7) {
         clickTimes.current = [];
         setWarDrums(true);
+        playWarDrums();
         setTimeout(() => setWarDrums(false), 4000);
       }
     };
@@ -295,6 +300,7 @@ function FireBurst() {
 
 // ─── Ancient Prophecy (triple-click title) ───
 function AncientProphecy({ onClose }: { onClose: () => void }) {
+  useEffect(() => { playProphecy(); }, []);
   const lines = [
     "When the hundredth voice speaks,",
     "the stones shall remember.",
@@ -440,6 +446,7 @@ function WarDrums() {
 
 // ─── Ancient Credits (hold emblem 3s) ───
 function AncientCredits({ onClose }: { onClose: () => void }) {
+  useEffect(() => { playGong(); }, []);
   const credits = [
     { role: "Chief Architect", name: "The Builder of Worlds" },
     { role: "Fire Keeper", name: "Guardian of the Flame" },
