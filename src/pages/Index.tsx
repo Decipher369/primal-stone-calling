@@ -4,13 +4,13 @@ import HeroSection from "@/components/HeroSection";
 import MissionSection from "@/components/MissionSection";
 import TrialsTimeline from "@/components/TrialsTimeline";
 import CallToAction from "@/components/CallToAction";
-import FireEmbers from "@/components/FireEmbers";
+
 import tribalEmblem from "@/assets/tribal-emblem.png";
 
 const Index = () => {
   return (
     <div className="relative min-h-screen bg-background">
-      <FireEmbers />
+      
       <Navbar />
 
       <HeroSection />
