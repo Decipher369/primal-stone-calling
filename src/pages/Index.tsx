@@ -5,6 +5,7 @@ import HeroSection from "@/components/HeroSection";
 import MissionSection from "@/components/MissionSection";
 import TrialsTimeline from "@/components/TrialsTimeline";
 import CallToAction from "@/components/CallToAction";
+import TribalProcession from "@/components/TribalProcession";
 import RegistrationModal from "@/components/RegistrationModal";
 import tribalEmblem from "@/assets/tribal-emblem.png";
 
