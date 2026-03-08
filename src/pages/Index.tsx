@@ -43,6 +43,7 @@ const Index = () => {
   return (
     <div className="relative min-h-screen bg-background">
       <TorchCursor />
+      <SoundToggle />
       <Navbar onRegisterClick={() => setIsModalOpen(true)} />
 
       <HeroSection />
