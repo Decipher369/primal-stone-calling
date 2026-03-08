@@ -446,6 +446,7 @@ function WarDrums() {
 
 // ─── Ancient Credits (hold emblem 3s) ───
 function AncientCredits({ onClose }: { onClose: () => void }) {
+  useEffect(() => { playGong(); }, []);
   const credits = [
     { role: "Chief Architect", name: "The Builder of Worlds" },
     { role: "Fire Keeper", name: "Guardian of the Flame" },
