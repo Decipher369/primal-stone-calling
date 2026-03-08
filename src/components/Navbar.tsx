@@ -6,10 +6,13 @@ import tribalEmblem from "@/assets/tribal-emblem.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Navbar = () => {
+interface NavbarProps {
+  onRegisterClick: () => void;
+}
+
+const Navbar = ({ onRegisterClick }: NavbarProps) => {
   const navRef = useRef<HTMLElement>(null);
 
-  // GSAP: navbar background appears on scroll
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return;
@@ -85,8 +88,8 @@ const Navbar = () => {
         >
           Join
         </motion.a>
-        <motion.a
-          href="#call"
+        <motion.button
+          onClick={onRegisterClick}
           className="btn-brand text-xs py-2 px-6 tracking-[0.25em]"
           custom={3}
           variants={linkVariants}
@@ -95,7 +98,7 @@ const Navbar = () => {
           whileHover={{ borderColor: "hsl(var(--fire))", color: "hsl(var(--fire))", boxShadow: "0 0 30px hsla(24, 80%, 50%, 0.2)" }}
         >
           Register
-        </motion.a>
+        </motion.button>
       </div>
     </motion.nav>
   );

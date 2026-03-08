@@ -1,21 +1,23 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import MissionSection from "@/components/MissionSection";
 import TrialsTimeline from "@/components/TrialsTimeline";
 import CallToAction from "@/components/CallToAction";
-
+import RegistrationModal from "@/components/RegistrationModal";
 import tribalEmblem from "@/assets/tribal-emblem.png";
 
 const Index = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="relative min-h-screen bg-background">
-      
-      <Navbar />
+      <Navbar onRegisterClick={() => setIsModalOpen(true)} />
 
       <HeroSection />
 
-      {/* Nomad's tale intro — like The Dood */}
+      {/* Nomad's tale intro */}
       <section className="py-20 md:py-28 px-4">
         <div className="container mx-auto max-w-2xl text-center">
           <motion.div
@@ -39,7 +41,7 @@ const Index = () => {
 
       <TrialsTimeline />
 
-      <CallToAction />
+      <CallToAction onJoinClick={() => setIsModalOpen(true)} />
 
       {/* Footer */}
       <footer className="py-16 px-4 text-center" style={{ borderTop: "1px solid hsl(var(--border))" }}>
@@ -48,6 +50,8 @@ const Index = () => {
           Team Alpha 2026 · The Tribe Rises
         </p>
       </footer>
+
+      <RegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };
