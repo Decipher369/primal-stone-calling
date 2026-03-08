@@ -73,7 +73,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
   );
 };
 
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
   // GSAP: split "TEAM ALPHA" into individual chars with stagger reveal
