@@ -87,14 +87,14 @@ const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
     };
   }, [handleTrigger]);
 
-  const isDone = phase === ("done" as string);
-  if (isDone) return null;
+  if (phase === "done") return null;
+
+  const isRevealing = phase === "reveal";
 
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
       style={{ backgroundColor: "hsl(0, 0%, 2%)" }}
-      animate={phase === "done" ? { opacity: 0 } : { opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
       {/* Flash overlay */}
