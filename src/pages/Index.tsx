@@ -5,6 +5,7 @@ import HeroSection from "@/components/HeroSection";
 import MissionSection from "@/components/MissionSection";
 import TrialsTimeline from "@/components/TrialsTimeline";
 import CallToAction from "@/components/CallToAction";
+import TribalProcession from "@/components/TribalProcession";
 import RegistrationModal from "@/components/RegistrationModal";
 import tribalEmblem from "@/assets/tribal-emblem.png";
 
@@ -37,11 +38,15 @@ const Index = () => {
 
       <MissionSection />
 
+      <TribalProcession />
+
       <div className="section-divider-thick w-full max-w-5xl mx-auto" />
 
       <TrialsTimeline />
 
       <CallToAction onJoinClick={() => setIsModalOpen(true)} />
+
+      <TribalProcession />
 
       {/* Footer */}
       <footer className="py-16 px-4 text-center" style={{ borderTop: "1px solid hsl(var(--border))" }}>
