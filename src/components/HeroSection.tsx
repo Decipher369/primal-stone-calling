@@ -1,5 +1,142 @@
 import { motion } from "framer-motion";
 import primalHeroBg from "@/assets/primal-hero-bg.jpg";
+import { useEffect, useRef } from "react";
+
+const TORCH_COUNT = 40;
+
+const FireBorderCanvas = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d")!;
+    let animId: number;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const w = () => canvas.offsetWidth;
+    const h = () => canvas.offsetHeight;
+
+    // Generate torch positions along the border
+    const getTorchPositions = () => {
+      const positions: { x: number; y: number }[] = [];
+      const perimeter = 2 * (w() + h());
+      const spacing = perimeter / TORCH_COUNT;
+
+      for (let i = 0; i < TORCH_COUNT; i++) {
+        const d = i * spacing;
+        let x: number, y: number;
+        if (d < w()) { x = d; y = 0; }
+        else if (d < w() + h()) { x = w(); y = d - w(); }
+        else if (d < 2 * w() + h()) { x = w() - (d - w() - h()); y = h(); }
+        else { x = 0; y = h() - (d - 2 * w() - h()); }
+        positions.push({ x, y });
+      }
+      return positions;
+    };
+
+    // Particles per torch
+    type Particle = {
+      x: number; y: number; vx: number; vy: number;
+      life: number; maxLife: number; size: number;
+      hue: number; brightness: number;
+    };
+
+    const particles: Particle[] = [];
+
+    const spawnParticle = (tx: number, ty: number) => {
+      particles.push({
+        x: tx + (Math.random() - 0.5) * 6,
+        y: ty + (Math.random() - 0.5) * 6,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: -1 - Math.random() * 2.5,
+        life: 0,
+        maxLife: 30 + Math.random() * 40,
+        size: 2 + Math.random() * 4,
+        hue: 15 + Math.random() * 25,
+        brightness: 50 + Math.random() * 40,
+      });
+    };
+
+    let frame = 0;
+    const draw = () => {
+      ctx.clearRect(0, 0, w(), h());
+      frame++;
+
+      const torches = getTorchPositions();
+
+      // Spawn particles from torches
+      if (frame % 2 === 0) {
+        torches.forEach((t) => {
+          if (Math.random() < 0.7) spawnParticle(t.x, t.y);
+        });
+      }
+
+      // Draw torch glow
+      torches.forEach((t) => {
+        const flickerR = 12 + Math.sin(frame * 0.15 + t.x * 0.1) * 5;
+        const grad = ctx.createRadialGradient(t.x, t.y, 0, t.x, t.y, flickerR);
+        grad.addColorStop(0, `hsla(24, 90%, 55%, 0.6)`);
+        grad.addColorStop(0.4, `hsla(20, 80%, 45%, 0.25)`);
+        grad.addColorStop(1, `hsla(20, 80%, 40%, 0)`);
+        ctx.fillStyle = grad;
+        ctx.fillRect(t.x - flickerR, t.y - flickerR, flickerR * 2, flickerR * 2);
+      });
+
+      // Update & draw particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.life++;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx *= 0.98;
+        p.vy *= 0.97;
+        p.size *= 0.98;
+
+        const alpha = 1 - p.life / p.maxLife;
+        if (alpha <= 0 || p.size < 0.3) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+        grad.addColorStop(0, `hsla(${p.hue}, 100%, ${p.brightness}%, ${alpha})`);
+        grad.addColorStop(0.6, `hsla(${p.hue}, 90%, ${p.brightness * 0.6}%, ${alpha * 0.5})`);
+        grad.addColorStop(1, `hsla(${p.hue}, 80%, 30%, 0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Limit particle count
+      while (particles.length > 800) particles.shift();
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 z-[2] pointer-events-none w-full h-full"
+    />
+  );
+};
 
 const HeroSection = () => {
   return (
@@ -24,6 +161,9 @@ const HeroSection = () => {
           `,
         }}
       />
+
+      {/* Fire/torch border */}
+      <FireBorderCanvas />
 
       {/* Content */}
       <div className="relative z-10 text-center px-4">
@@ -58,7 +198,7 @@ const HeroSection = () => {
         </motion.p>
       </div>
 
-      {/* Scroll indicator — like The Dood's arrow */}
+      {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
         initial={{ opacity: 0 }}
