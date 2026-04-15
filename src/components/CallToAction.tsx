@@ -88,7 +88,7 @@ const CallToAction = ({ onJoinClick }: CallToActionProps) => {
               visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] as const } },
             }}
           >
-            Carve Your Name<br />Into History
+            Claim Your Spot<br />Before The Fire Dies
           </motion.h2>
           <motion.p
             className="text-lg md:text-xl font-body leading-relaxed text-bone-muted max-w-lg mx-auto mb-14"
@@ -97,7 +97,7 @@ const CallToAction = ({ onJoinClick }: CallToActionProps) => {
               visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1 } },
             }}
           >
-            The stones have spoken. The fire awaits your mark. Join the tribe — let your voice echo through the ages.
+            The pre-signup stone is open. Carve your mark now and be the first to know when the gathering begins. Uni warriors only.
           </motion.p>
 
           <motion.div
@@ -116,7 +116,7 @@ const CallToAction = ({ onJoinClick }: CallToActionProps) => {
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
             >
-              Join the Tribe
+              Pre-Sign Up
             </motion.button>
           </motion.div>
 
@@ -127,7 +127,7 @@ const CallToAction = ({ onJoinClick }: CallToActionProps) => {
               visible: { opacity: 1, transition: { duration: 1, delay: 0.3 } },
             }}
           >
-            Limited to 100 Warriors
+            Limited Spots · University Students Only
           </motion.p>
         </motion.div>
       </div>

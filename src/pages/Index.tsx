@@ -10,7 +10,7 @@ import CallToAction from "@/components/CallToAction";
 import TribalProcession from "@/components/TribalProcession";
 import RegistrationModal from "@/components/RegistrationModal";
 import { useEasterEggs, EasterEggOverlays } from "@/components/EasterEggs";
-import tribalEmblem from "@/assets/tribal-emblem.png";
+import teamAlphaLogo from "@/assets/team-alpha-logo.png";
 
 const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,10 +61,10 @@ const Index = () => {
               className="font-heading text-xs tracking-[0.5em] uppercase text-fire mb-8 cursor-default select-none"
               onClick={handleTaleClick}
             >
-              A Warrior's Tale
+              The Legacy
             </p>
             <p className="text-xl md:text-2xl font-body leading-relaxed" style={{ color: "hsl(var(--bone))" }}>
-              Before thrones, before kingdoms — there was the tribe. Bound not by walls but by voice, by fire, by the will to lead. In the primal age, the strongest voice commanded the hunt, shaped the future, forged the world.
+              Since 2016, Team Alpha has taken university students into the wild — away from screens, away from comfort. In the jungles of Balangoda, beside roaring waterfalls and around sacred campfires, strangers become a tribe. This is where leaders are born.
             </p>
             <div className="section-divider w-32 mx-auto mt-12" />
           </motion.div>
@@ -86,7 +86,7 @@ const Index = () => {
       {/* Footer — hold emblem 3s for secret credits */}
       <footer className="py-16 px-4 text-center" style={{ borderTop: "1px solid hsl(var(--border))" }}>
         <img
-          src={tribalEmblem}
+          src={teamAlphaLogo}
           alt="Team Alpha"
           className="h-10 w-auto mx-auto mb-6 opacity-60 cursor-pointer select-none"
           onMouseDown={startHold}
@@ -96,7 +96,7 @@ const Index = () => {
           onTouchEnd={endHold}
         />
         <p className="font-heading text-xs tracking-[0.4em] uppercase text-bone-muted">
-          Team Alpha 2026 · The Tribe Rises
+          Team Alpha 2026 · Rotaract Club of SLIIT
         </p>
       </footer>
 

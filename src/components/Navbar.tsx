@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import tribalEmblem from "@/assets/tribal-emblem.png";
+import teamAlphaLogo from "@/assets/team-alpha-logo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -118,7 +118,7 @@ const Navbar = ({ onRegisterClick }: NavbarProps) => {
           transition={{ delay: 0.3, duration: 1.5, type: "spring", stiffness: 100 }}
           whileHover={{ scale: 1.1, opacity: 1 }}
         >
-          <img src={tribalEmblem} alt="Team Alpha" className="h-12 md:h-14 w-auto" />
+          <img src={teamAlphaLogo} alt="Team Alpha" className="h-12 md:h-14 w-auto" />
         </motion.a>
 
         <div className="flex items-center gap-8">
@@ -174,7 +174,7 @@ const Navbar = ({ onRegisterClick }: NavbarProps) => {
                   animate={{ opacity: 0.7, scale: 1, rotate: 0 }}
                   transition={{ delay: 0.2, duration: 0.8, type: "spring" }}
                 >
-                  <img src={tribalEmblem} alt="" className="h-16 w-auto opacity-60" />
+                  <img src={teamAlphaLogo} alt="" className="h-16 w-auto opacity-60" />
                 </motion.div>
 
                 <div className="w-full h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent mb-8" />

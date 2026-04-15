@@ -84,8 +84,8 @@ const MissionSection = () => {
             ref={headingRef}
             className="text-display text-3xl sm:text-4xl md:text-6xl font-bold tracking-[0.08em] text-carved leading-tight overflow-hidden"
           >
-            <span className="block">The Gathering</span>
-            <span className="block">of the 100</span>
+            <span className="block">Forge the</span>
+            <span className="block">Unbreakable</span>
           </h2>
         </div>
 
@@ -108,7 +108,7 @@ const MissionSection = () => {
                 visible: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 1 } },
               }}
             >
-              From every corner of the land, 100 warriors answer the call. Not chosen by blood, but by fire — the fire to speak, to lead, to conquer.
+              Team Alpha is the platinum award-winning, adventure-based team building and professional development programme by the Rotaract Club of SLIIT — forging leaders through fire, water, and stone since 2016.
             </motion.p>
             <motion.p
               className="text-lg font-body leading-relaxed text-bone-muted mb-10"
@@ -117,7 +117,7 @@ const MissionSection = () => {
                 visible: { opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 1 } },
               }}
             >
-              This is not a competition. This is a proving ground. Each delegate will be forged through trials of voice and will, emerging as leaders of a new age.
+              In collaboration with the Sri Lanka Army, warriors are pushed beyond limits — waterfall abseiling, river crossings, jungle hikes, and campfire rituals. No textbooks. No lectures. Only the wild.
             </motion.p>
             <motion.div
               className="section-divider-thick w-24"
@@ -148,7 +148,7 @@ const MissionSection = () => {
                 className="w-full opacity-70 mix-blend-screen"
               />
               <p className="text-center font-heading text-xs tracking-[0.4em] uppercase mt-6 text-bone-muted">
-                The Assembly Awaits
+                Where Leaders Are Forged
               </p>
             </motion.div>
           </motion.div>

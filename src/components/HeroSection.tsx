@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import primalHeroBg from "@/assets/primal-hero-bg.jpg";
+import teamAlphaLogo from "@/assets/team-alpha-logo.png";
 
 
 function useCountdown(targetDate: string) {
@@ -103,7 +104,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
                   className="text-sm md:text-lg tabular-nums leading-none transition-all duration-700 group-hover:[text-shadow:0_0_8px_hsl(var(--fire)/0.6),0_0_20px_hsl(var(--fire)/0.3),0_1px_0_hsl(0_0%_0%/0.8)]"
                   style={{
                     fontFamily: "var(--font-display)",
-                    color: "hsl(var(--bone) / 0.7)",
+                    color: "#ffffff",
                     textShadow: "0 1px 0 hsl(0 0% 0% / 0.8)",
                     transition: "color 0.7s, text-shadow 0.7s",
                   }}
@@ -114,7 +115,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
                   className="text-[5px] md:text-[6px] tracking-[0.25em] uppercase mt-0.5 transition-colors duration-700 group-hover:text-primary/60"
                   style={{
                     fontFamily: "var(--font-heading)",
-                    color: "hsl(var(--bone-muted) / 0.35)",
+                    color: "rgba(255, 255, 255, 0.6)",
                   }}
                 >
                   {u.label}
@@ -124,7 +125,7 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
               {i < units.length - 1 && (
                 <motion.span
                   className="text-[10px] md:text-xs -mt-2 transition-colors duration-700 group-hover:text-primary/40"
-                  style={{ color: "hsl(var(--bone) / 0.25)" }}
+                  style={{ color: "rgba(255, 255, 255, 0.5)" }}
                   animate={{ opacity: [0.4, 0.15, 0.4] }}
                   transition={{ repeat: Infinity, duration: 1.2 }}
                 >
@@ -143,65 +144,31 @@ const HeroSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // GSAP: split "TEAM ALPHA" into individual chars with stagger reveal
+  // GSAP: logo entrance + fire glow pulse
   useEffect(() => {
     const el = titleRef.current;
     if (!el) return;
 
-    const words = ["TEAM", "ALPHA"];
-    el.innerHTML = "";
-
-    const allChars: HTMLSpanElement[] = [];
-
-    words.forEach((word, wi) => {
-      const wordSpan = document.createElement("span");
-      wordSpan.style.display = "inline-block";
-      if (wi === 0) {
-        // Add line break on mobile
-        const br = document.createElement("br");
-        br.className = "md:hidden";
-        wordSpan.appendChild(br);
-      }
-
-      word.split("").forEach((char) => {
-        const s = document.createElement("span");
-        s.textContent = char;
-        s.style.display = "inline-block";
-        wordSpan.appendChild(s);
-        allChars.push(s);
-      });
-
-      el.appendChild(wordSpan);
-      if (wi < words.length - 1) {
-        const space = document.createElement("span");
-        space.innerHTML = "&nbsp;";
-        space.style.display = "inline-block";
-        space.className = "hidden md:inline-block";
-        el.appendChild(space);
-      }
-    });
-
     const ctx = gsap.context(() => {
-      gsap.set(allChars, {
+      gsap.set(el, {
         opacity: 0,
-        y: 80,
-        rotationX: -90,
-        transformOrigin: "50% 100%",
+        scale: 0.6,
+        rotationX: -30,
+        transformOrigin: "50% 50%",
       });
 
-      gsap.to(allChars, {
-        opacity: 1,
-        y: 0,
-        rotationX: 0,
-        duration: 0.8,
-        stagger: 0.06,
-        delay: 1.3,
-        ease: "back.out(1.7)",
-      });
-
-      // Fire glow pulse after text lands
       gsap.to(el, {
-        textShadow: "0 0 40px hsla(24, 80%, 50%, 0.8), 0 0 80px hsla(24, 80%, 50%, 0.4), 0 0 120px hsla(18, 85%, 55%, 0.25)",
+        opacity: 1,
+        scale: 1,
+        rotationX: 0,
+        duration: 1.5,
+        delay: 1.3,
+        ease: "back.out(1.4)",
+      });
+
+      // Fire glow pulse after logo lands
+      gsap.to(el, {
+        filter: "drop-shadow(0 0 40px hsla(24, 80%, 50%, 0.6)) drop-shadow(0 0 80px hsla(24, 80%, 50%, 0.3))",
         duration: 2,
         delay: 3,
         repeat: -1,
@@ -280,16 +247,19 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 1.2 }}
         >
-          Ancient Voices
+          Rotaract Club of SLIIT Presents
         </motion.p>
 
-        <h1
+        <div
           ref={titleRef}
-          className="text-display text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-bold tracking-[0.1em] leading-none mb-4"
-          style={{ color: "hsl(var(--bone))" }}
+          className="mb-4"
         >
-          TEAM ALPHA
-        </h1>
+          <img
+            src={teamAlphaLogo}
+            alt="Team Alpha"
+            className="h-32 sm:h-44 md:h-56 lg:h-72 w-auto mx-auto"
+          />
+        </div>
 
         <motion.p
           className="font-heading text-xs md:text-sm tracking-[0.6em] uppercase mt-6"
@@ -298,11 +268,11 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.8, duration: 1 }}
         >
-          Of Fire & The New Age
+          Adventure · Leadership · Brotherhood
         </motion.p>
 
         {/* Countdown Timer */}
-        <CountdownTimer targetDate="2026-04-15T09:00:00" />
+        <CountdownTimer targetDate="2026-05-09T09:00:00" />
       </div>
 
       {/* Scroll indicator — Framer Motion spring bounce */}
