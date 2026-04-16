@@ -6,11 +6,9 @@ import primalHeroBg from "@/assets/primal-hero-bg.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface CallToActionProps {
-  onJoinClick: () => void;
-}
+const REGISTRATION_URL = "https://form.teamalpha.workers.dev/";
 
-const CallToAction = ({ onJoinClick }: CallToActionProps) => {
+const CallToAction = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -97,7 +95,7 @@ const CallToAction = ({ onJoinClick }: CallToActionProps) => {
               visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1 } },
             }}
           >
-            The pre-signup stone is open. Carve your mark now and be the first to know when the gathering begins. Uni warriors only.
+            The signup stone is open. Carve your mark now and be the first to know when the gathering begins. Uni warriors only.
           </motion.p>
 
           <motion.div
@@ -106,9 +104,11 @@ const CallToAction = ({ onJoinClick }: CallToActionProps) => {
               visible: { opacity: 1, scale: 1, transition: { duration: 0.8, type: "spring", stiffness: 200 } },
             }}
           >
-            <motion.button
-              onClick={onJoinClick}
-              className="btn-brand-filled text-base md:text-lg"
+            <motion.a
+              href={REGISTRATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-brand-filled text-base md:text-lg inline-block"
               whileHover={{
                 scale: 1.05,
                 boxShadow: "0 0 60px hsla(24, 80%, 50%, 0.5), 0 0 120px hsla(24, 80%, 50%, 0.2)",
@@ -116,8 +116,8 @@ const CallToAction = ({ onJoinClick }: CallToActionProps) => {
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
             >
-              Pre-Sign Up
-            </motion.button>
+              Sign Up
+            </motion.a>
           </motion.div>
 
           <motion.p

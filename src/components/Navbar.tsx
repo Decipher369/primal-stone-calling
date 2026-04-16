@@ -6,11 +6,9 @@ import teamAlphaLogo from "@/assets/team-alpha-logo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface NavbarProps {
-  onRegisterClick: () => void;
-}
+const REGISTRATION_URL = "https://form.teamalpha.workers.dev/";
 
-const Navbar = ({ onRegisterClick }: NavbarProps) => {
+const Navbar = () => {
   const navRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -127,8 +125,10 @@ const Navbar = ({ onRegisterClick }: NavbarProps) => {
           >
             Join
           </motion.a>
-          <motion.button
-            onClick={onRegisterClick}
+          <motion.a
+            href={REGISTRATION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-brand text-xs py-2 px-6 tracking-[0.25em] hidden md:block"
             custom={3}
             variants={linkVariants}
@@ -137,7 +137,7 @@ const Navbar = ({ onRegisterClick }: NavbarProps) => {
             whileHover={{ borderColor: "hsl(var(--fire))", color: "hsl(var(--fire))", boxShadow: "0 0 30px hsla(24, 80%, 50%, 0.2)" }}
           >
             Register
-          </motion.button>
+          </motion.a>
         </div>
       </motion.nav>
 
@@ -201,8 +201,11 @@ const Navbar = ({ onRegisterClick }: NavbarProps) => {
 
                 <div className="w-full h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent my-8" />
 
-                <motion.button
-                  onClick={() => { setMenuOpen(false); onRegisterClick(); }}
+                <motion.a
+                  href={REGISTRATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMenuOpen(false)}
                   className="btn-brand text-xs py-3 px-8 tracking-[0.25em] w-full"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -210,7 +213,7 @@ const Navbar = ({ onRegisterClick }: NavbarProps) => {
                   whileHover={{ boxShadow: "0 0 30px hsla(24, 80%, 50%, 0.3)" }}
                 >
                   Register
-                </motion.button>
+                </motion.a>
 
                 <div className="mt-auto pb-8 flex justify-center gap-6 opacity-20">
                   {["◈", "◇", "△", "◈"].map((sym, i) => (

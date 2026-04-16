@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import TorchCursor from "@/components/TorchCursor";
 import SoundToggle from "@/components/SoundToggle";
 import { motion } from "framer-motion";
@@ -8,12 +8,10 @@ import MissionSection from "@/components/MissionSection";
 import TrialsTimeline from "@/components/TrialsTimeline";
 import CallToAction from "@/components/CallToAction";
 import TribalProcession from "@/components/TribalProcession";
-import RegistrationModal from "@/components/RegistrationModal";
 import { useEasterEggs, EasterEggOverlays } from "@/components/EasterEggs";
 import teamAlphaLogo from "@/assets/team-alpha-logo.png";
 
 const Index = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const easterEggs = useEasterEggs();
 
   // Triple-click on warrior's tale triggers prophecy
@@ -44,7 +42,7 @@ const Index = () => {
     <div className="relative min-h-screen bg-background">
       <TorchCursor />
       <SoundToggle />
-      <Navbar onRegisterClick={() => setIsModalOpen(true)} />
+      <Navbar />
 
       <HeroSection />
 
@@ -79,7 +77,7 @@ const Index = () => {
 
       <TrialsTimeline />
 
-      <CallToAction onJoinClick={() => setIsModalOpen(true)} />
+      <CallToAction />
 
       <TribalProcession />
 
@@ -100,7 +98,6 @@ const Index = () => {
         </p>
       </footer>
 
-      <RegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       {/* Easter egg overlays */}
       <EasterEggOverlays {...easterEggs} />

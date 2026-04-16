@@ -326,7 +326,7 @@ const RegistrationModal = ({ isOpen, onClose }: RegistrationModalProps) => {
                           className="font-heading text-[10px] tracking-[0.5em] uppercase"
                           style={{ color: "hsl(var(--fire))" }}
                         >
-                          Pre-Signup
+                          Signup
                         </span>
                         <Users size={14} style={{ color: "hsl(var(--fire))" }} />
                       </motion.div>
