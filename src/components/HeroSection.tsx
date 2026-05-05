@@ -242,7 +242,7 @@ const HeroSection = () => {
       <div className="relative z-10 text-center px-4">
         <motion.p
           className="font-heading text-xs md:text-sm tracking-[0.6em] uppercase mb-6"
-          style={{ color: "hsl(var(--bone-muted))" }}
+          style={{ color: "hsl(var(--bone-muted))", textShadow: "0 1px 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.8)" }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 1.2 }}
@@ -263,7 +263,7 @@ const HeroSection = () => {
 
         <motion.p
           className="font-heading text-xs md:text-sm tracking-[0.6em] uppercase mt-6"
-          style={{ color: "hsl(var(--bone-muted))" }}
+          style={{ color: "hsl(var(--bone-muted))", textShadow: "0 1px 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.8)" }}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.8, duration: 1 }}
